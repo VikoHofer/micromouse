@@ -1,0 +1,144 @@
+build-gen:
+  board: 
+  compiler: AC6
+  device: STM32F446RETx
+  generated-by: uVision version 5.43.1.0
+  processor:
+    core: Cortex-M4
+    dsp: off
+    endian: little
+    fpu: sp
+  add-path: 
+  components:
+    - component: ARM::CMSIS:CORE@6.1.1
+      from-pack: ARM::CMSIS@6.2.0
+  apis: 
+  groups:
+    - group: main
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/main.c
+          category: sourceC
+    - group: motor
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/MotorDriver.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/MotorDriver.h
+          category: header
+    - group: IR_sensor
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/sensor.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/sensor.h
+          category: header
+    - group: encoder
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/encoder.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/encoder.c
+          category: sourceC
+    - group: button
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/board_button.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/board_button.c
+          category: sourceC
+    - group: led
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/BOARD_LED.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/BOARD_LED.h
+          category: header
+    - group: config
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/clock_config.h
+          category: header
+    - group: exti
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/clock_config.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/EXTI.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/EXTI.c
+          category: sourceC
+    - group: adc
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/adc.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/adc.h
+          category: header
+    - group: Debugging
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Uart.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Uart.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Print.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Print.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Python_Debugger.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Python_Debugger.c
+          category: sourceC
+    - group: FloodFill
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/FloodFill.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/FloodFill.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Refresh.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Refresh.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Queue.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Queue.h
+          category: header
+    - group: Timer
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Timer.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Timer.h
+          category: header
+    - group: drive_control
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/drive_control.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/drive_control.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/profile.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/profile.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/motion_control.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/motion_control.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/pid.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/pid.c
+          category: sourceC
+    - group: Delay
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Delay.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Delay.c
+          category: sourceC
+    - group: Statemachine
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/StateMachine.h
+          category: header
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Statemachine.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/State_Initialize.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/State_SolveMaze.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/State_FastRun.c
+          category: sourceC
+    - group: current_Sensor
+      files:
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/current_sensor.c
+          category: sourceC
+        - file: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/current_sensor.h
+          category: header

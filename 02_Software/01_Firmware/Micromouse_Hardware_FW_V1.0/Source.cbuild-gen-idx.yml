@@ -1,0 +1,13 @@
+build-gen-idx:
+  generated-by: uVision version 5.43.1.0
+  generators:
+    - board: 
+      device: STM32F446RETx
+      id: CubeMX
+      output: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/STM32CubeMX/Source/
+      project-type: single-core
+      cbuild-gens:
+        - cbuild-gen: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/Micromouse_FW.Source.cbuild-gen.yml
+          configuration: .Source
+          name: C:/Users/WeiglA/Stuff/Projekt/micronextgen/02_Software/01_Firmware/Micromouse_Hardware_FW_V1.0/STM32CubeMX/Source/Micromouse_FW.cgen.yml
+          project: Micromouse_FW

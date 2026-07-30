@@ -1,0 +1,31 @@
+/*************************************************************
+Project		: Micromouse V1.0
+File		: board_button.h
+Description	: Read Button states on Micromouse
+Date		: 09.09.2024
+*************************************************************/
+
+// !!!!!! PINS ANPASSEN !!!!!!!!!
+
+#include "stm32f4xx.h"
+#include "stm32f4xx_hal_gpio.h"
+#include <stdbool.h>
+
+
+// initialize selected GPIOs for button usage
+void BUTTON_Init(void);
+
+
+// Button USER 0
+bool BUTTON_USER_Pressed(void);
+
+// Button 1
+bool BUTTON1_Pressed(void);
+
+// Button 2
+bool BUTTON2_Pressed(void);
+
+// Button 3
+bool BUTTON3_Pressed(void);
+
+

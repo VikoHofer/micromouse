@@ -1,0 +1,199 @@
+clear; clc; close all;
+
+%% Einstellungen
+zeta = 0.707;          % Dämpfung aus dem Paper
+use_Td_equals_Tm = False;
+
+Td_vel = 0.125;
+Td_yaw = 0.8;
+
+T
+
+% Stellgrößen der Messungen:
+u_vel = 800;           % z.B. PWM-Step für Forward-Test
+u_yaw = 400;           % z.B. PWM-Step für Yaw-Test
+
+% Falls dein Winkel-CSV in deg/s ist:
+angle_in_deg = false;   % true -> wird intern in rad/s umgerechnet
+
+%% Forward Velocity identifizieren
+file_vel = 'Step_Both_Wheels_IN800_20ms.csv';
+res_vel = identify_pt1_from_step(file_vel, u_vel, false);
+
+fprintf('\n=== FORWARD VELOCITY ===\n');
+fprintf('Km_vel = %.6f [mm/s pro input]\n', res_vel.Km);
+fprintf('Tm_vel = %.6f [s]\n', res_vel.Tm);
+fprintf('t0_vel = %.6f [s]\n', res_vel.t0);
+fprintf('y_inf  = %.6f [mm/s]\n', res_vel.y_inf);
+
+% PD für Positionsregelung aus Velocity-Strecke
+pd_pos = compute_pd_from_paper(res_vel.Km, res_vel.Tm, zeta, use_Td_equals_Tm);
+
+fprintf('Kp_pos = %.6f\n', pd_pos.Kp);
+fprintf('Kd_pos = %.6f\n', pd_pos.Kd);
+fprintf('Td_pos = %.6f [s]\n', pd_pos.Td);
+
+%% Angle Velocity identifizieren
+file_yaw = 'Step_Angle_Vel_IN400_20ms.csv';
+res_yaw = identify_pt1_from_step(file_yaw, u_yaw, angle_in_deg);
+
+fprintf('\n=== YAW RATE ===\n');
+fprintf('Km_yaw = %.6f [rad/s pro input]\n', res_yaw.Km);
+fprintf('Tm_yaw = %.6f [s]\n', res_yaw.Tm);
+fprintf('t0_yaw = %.6f [s]\n', res_yaw.t0);
+fprintf('y_inf  = %.6f [rad/s]\n', res_yaw.y_inf);
+
+% PD für Winkelregelung aus Yaw-Rate-Strecke
+pd_ang = compute_pd_from_paper(res_yaw.Km, res_yaw.Tm, zeta, use_Td_equals_Tm);
+
+fprintf('Kp_ang = %.6f\n', pd_ang.Kp);
+fprintf('Kd_ang = %.6f\n', pd_ang.Kd);
+fprintf('Td_ang = %.6f [s]\n', pd_ang.Td);
+
+%% Übertragungsfunktionen
+s = tf('s');
+
+Gv = res_vel.Km / (res_vel.Tm * s + 1);         % input -> forward velocity
+Gp = Gv / s;                                     % input -> position
+
+Gw = res_yaw.Km / (res_yaw.Tm * s + 1);         % input -> yaw rate
+Ga = Gw / s;                                     % input -> angle
+
+Cpos = pd_pos.Kd * s + pd_pos.Kp;
+Cang = pd_ang.Kd * s + pd_ang.Kp;
+
+CL_pos = feedback(Cpos * Gp, 1);
+CL_ang = feedback(Cang * Ga, 1);
+
+%% Plots: Messung vs Fit
+figure;
+plot(res_vel.t, res_vel.y, 'b', 'LineWidth', 1.2); hold on;
+plot(res_vel.t, res_vel.y_fit, 'r--', 'LineWidth', 1.5);
+grid on;
+xlabel('Zeit [s]');
+ylabel('Forward velocity [mm/s]');
+title('Forward velocity: Messung und PT1-Fit');
+legend('Messung', 'Fit');
+
+figure;
+plot(res_yaw.t, res_yaw.y, 'b', 'LineWidth', 1.2); hold on;
+plot(res_yaw.t, res_yaw.y_fit, 'r--', 'LineWidth', 1.5);
+grid on;
+xlabel('Zeit [s]');
+ylabel('Yaw rate [rad/s]');
+title('Yaw rate: Messung und PT1-Fit');
+legend('Messung', 'Fit');
+
+%% Plots: geschlossene Kreise
+figure;
+step(CL_pos);
+grid on;
+title('Geschlossene Schrittantwort Position');
+
+figure;
+step(CL_ang);
+grid on;
+title('Geschlossene Schrittantwort Winkel');
+
+%% ===== Funktionen =====
+
+function res = identify_pt1_from_step(filename, u_step, convert_deg_to_rad)
+    % CSV einlesen
+    %T = readtable(filename, 'Delimiter', ';');
+    T = readtable(filename, 'Delimiter', ',', 'VariableNamingRule', 'preserve');
+
+    t = T{:,1};          % ms
+    y = T{:,2};
+
+    % Einheiten
+    t = t / 1000;        % s
+
+    if convert_deg_to_rad
+        y = deg2rad(y);
+    end
+
+    % Spaltenvektoren
+    t = t(:);
+    y = y(:);
+
+    % Startwert und Endwert grob schätzen
+    n = length(y);
+    n_head = max(3, round(0.1 * n));
+    n_tail = max(5, round(0.2 * n));
+
+    y0_guess   = mean(y(1:n_head));
+    yinf_guess = mean(y(end-n_tail+1:end));
+
+    % grober Startzeitpunkt: erstes Überschreiten von 5% des Endhubs
+    dy_guess = yinf_guess - y0_guess;
+    idx0 = find(abs(y - y0_guess) > 0.05 * abs(dy_guess), 1, 'first');
+    if isempty(idx0)
+        idx0 = 1;
+    end
+    t0_guess = t(idx0);
+
+    % grober Tm-Schätzer aus 63.2%-Punkt
+    y63 = y0_guess + 0.632 * dy_guess;
+    idx63 = find((y - y63) * sign(dy_guess) >= 0, 1, 'first');
+    if isempty(idx63)
+        T_guess = max(t(end) / 5, 0.05);
+    else
+        T_guess = max(t(idx63) - t0_guess, 0.01);
+    end
+
+    % Parameterfit: p = [y0, yinf, Tm, t0]
+    p0 = [y0_guess, yinf_guess, T_guess, t0_guess];
+
+    obj = @(p) sum((y - pt1_step_model(t, p)).^2);
+
+    options = optimset('Display', 'off', 'MaxFunEvals', 5000, 'MaxIter', 5000);
+    p = fminsearch(obj, p0, options);
+
+    y0   = p(1);
+    yinf = p(2);
+    Tm   = abs(p(3));
+    t0   = p(4);
+
+    y_fit = pt1_step_model(t, [y0, yinf, Tm, t0]);
+
+    Km = (yinf - y0) / u_step;
+
+    res.t = t;
+    res.y = y;
+    res.y_fit = y_fit;
+    res.y0 = y0;
+    res.y_inf = yinf;
+    res.Km = Km;
+    res.Tm = Tm;
+    res.t0 = t0;
+end
+
+function y = pt1_step_model(t, p)
+    y0   = p(1);
+    yinf = p(2);
+    Tm   = abs(p(3));
+    t0   = p(4);
+
+    y = y0 * ones(size(t));
+
+    idx = t >= t0;
+    y(idx) = y0 + (yinf - y0) .* (1 - exp(-(t(idx) - t0) / Tm));
+end
+
+function pd = compute_pd_from_paper(Km, Tm, zeta, use_Td_equals_Tm)
+    if use_Td_equals_Tm
+        Td = Tm;
+    else
+        Td = Tm; % hier später anpassen, falls du bewusst schneller/langsamer willst
+    end
+
+    wn = 4 / (zeta * Td);
+
+    Kp = (Tm * wn^2) / Km;
+    Kd = (2 * zeta * wn * Tm - 1) / Km;
+
+    pd.Kp = Kp;
+    pd.Kd = Kd;
+    pd.Td = Td;
+    pd.wn = wn;
+end

@@ -1,0 +1,5 @@
+load STM32F446RETx
+project name STM32CubeMX
+project toolchain "MDK-ARM V5"
+project path "C:\Users\WeiglA\Stuff\Projekt\micronextgen\02_Software\01_Firmware\Micromouse_Hardware_FW_V1.0\STM32CubeMX\Source"
+SetCopyLibrary "copy only"

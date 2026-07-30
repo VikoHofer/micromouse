@@ -1,0 +1,12 @@
+Positionierung davor der Mittelpunkt der Maus soll genau auf der Kante der Wände sein. 
+Das heißt beim move vor einer diagonalen nur ein halbes Feld fahren. Danach 45° drehen.
+
+Startbedingungen
+Es muss eine Links, Rechts oder eine Rechts, Links Kombination sein und dann abwechselnd.
+Links,Links oder Rechts, Rechts geht nicht.
+
+Stopbedingungen, es gibt zwei Stoppmöglichkeiten, je nachdem muss 45° nach rechts oder links gedreht werden. Danach muss ein halbes Feld gefahren werden.
+Anschließend wird der Weg normal weitergeführt.
+
+
+Umsetzung: Vor move muss die nächste Kurvenpassage geprüft werden, da move ein halbes Feld kürzer sein muss.
